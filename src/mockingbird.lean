@@ -6,7 +6,10 @@ inductive Bird
 | Ap : Bird -> Bird -> Bird
 open Bird
 
-/-- Every bird in the forest is fond of at least one bird -/
+/--
+  1. One rumor is that Every bird in the forest is fond of
+  at least one bird
+-/
 theorem all_birds_fond
   /-
     (the composition condition)
@@ -30,6 +33,23 @@ begin
   rw Hm at CC,                /- CC = A(CC) -/
   existsi Ap C C,
   exact CC,
+end
+
+/--
+  2. A bird x is called "egocentric" if it is fond of itself.
+  Prove using C₁ and C₂ that at least one bird is egocentric.
+-/
+theorem egocentric_exists
+  (C₁ : ∀ A B, ∃ C, ∀ x, Ap C x = Ap A (Ap B x))
+  (C₂ : ∃ M, ∀ x, Ap M x = Ap x x)
+  : ∃ x, x = Ap x x :=
+begin
+  have C₂' := C₂,
+  cases C₂ with M Hm,
+  cases all_birds_fond C₁ C₂' M with B Hb,  /- B = MB -/
+  rw Hm B at Hb,                            /- B = BB -/
+  existsi B,
+  exact Hb,
 end
 
 end mockingbird
