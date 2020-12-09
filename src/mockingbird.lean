@@ -42,10 +42,10 @@ end
 theorem egocentric_bird_exists (h : forest)
   : ∃ (x : Bird), x = x * x :=
 begin
-  cases h.mockingbird with M Hm,
-  cases all_birds_fond h M with B Hb,  /- B = MB -/
-  rw Hm B at Hb,                       /- B = BB -/
-  use [B, Hb],
+  obtain ⟨M, hM⟩ := h.mockingbird,
+  obtain ⟨B, hB⟩ := all_birds_fond h M,
+  rw hM B at hB,
+  use [B, hB],
 end
 
 end mockingbird
