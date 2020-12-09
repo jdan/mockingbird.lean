@@ -29,12 +29,10 @@ structure forest : Prop :=
 theorem all_birds_fond (h : forest) (A : Bird)
   : ∃ B, B = A * B :=
 begin
-  cases h.mockingbird with M Hm,
-  cases (h.comp A M) with C Hc,   /- Cx = A(Mx) -/
-  have CC := Hc C,                /- CC = A(MC) -/
-  rw Hm at CC,                    /- CC = A(CC) -/
-  existsi C * C,
-  exact CC,
+  obtain ⟨M, hM⟩ := h.mockingbird,
+  obtain ⟨C, hC⟩ := h.comp A M,
+  use C * C,
+  rw [←hM, ←hC, hM],
 end
 
 /--
