@@ -39,7 +39,7 @@ end
   2. A bird x is called "egocentric" if it is fond of itself.
   Prove using C₁ and C₂ that at least one bird is egocentric.
 -/
-theorem egocentric_exists
+theorem egocentric_bird_exists
   (C₁ : ∀ A B, ∃ C, ∀ x, Ap C x = Ap A (Ap B x))
   (C₂ : ∃ M, ∀ x, Ap M x = Ap x x)
   : ∃ x, x = Ap x x :=
