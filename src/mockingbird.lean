@@ -48,4 +48,25 @@ begin
   use [B, hB],
 end
 
+/-
+  3. We are not given that there is a mockingbird; instead,
+  we are given that there is an agreeable bird A.
+
+  Is this enough to guarantee that every bird is fond of
+  at least one bird?
+-/
+structure forest₂ : Prop :=
+  (comp (A B : Bird) : ∃ C, ∀ x, C * x = A * (B * x))
+  (agreeable : ∃ (A : Bird), ∀ B, ∃ x, A * x = B * x)
+
+theorem all_birds_fond₂ (h : forest₂) (B : Bird)
+  : ∃ H, H = B * H :=
+begin
+  obtain ⟨A, hA⟩ := h.agreeable,
+  obtain ⟨C, hC⟩ := h.comp B A,
+  obtain ⟨y, hy⟩ := hA C,   /- Ay = Cy -/
+  rw hC y at hy,           /- Ay = B(Ay) -/
+  use [A * y, hy],         /- B is fond of Ay -/
+end
+
 end mockingbird
