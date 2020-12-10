@@ -69,4 +69,30 @@ begin
   use [A * y, hy],         /- B is fond of Ay -/
 end
 
+/-
+  4. Suppose that the composition condition C₁ of Problem 1
+  holds and that A, B, and C are birds such that C composes A
+  with B. Prove that if C is agreeable then A is also
+  agreeable.
+-/
+def agreeable (A : Bird) := ∀ B, ∃ x, A * x = B * x
+
+theorem agreeable_compose
+  (A B C : Bird)
+  (C₁ : ∀ (A B : Bird), ∃ C, ∀ x, C * x = A * (B * x))
+  (hC : ∀ x, C * x = A * (B * x))
+  : agreeable C -> agreeable A :=
+begin
+  unfold agreeable,
+  intros hCagr D,
+  obtain ⟨E, hE⟩ := C₁ D B,   /- Ex = D(Bx) -/
+  obtain ⟨x, hx⟩ := hCagr E,  /- Cx = Ex -/
+                             /- ⊢ ∃ (x : Bird), A * x = D * x -/
+  use [B * x],               /- A(Bx) = D(Bx) -/
+
+  /- rw D(Bx) to Ex, A(Bx) to Cx -/
+  /- then use hx, since Ex = Cx (via C agreeable w/ E) -/
+  rw [←hE, ←hC, hx],
+end
+
 end mockingbird
